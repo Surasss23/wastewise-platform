@@ -157,7 +157,7 @@ export function ReportForm() {
           <label className="block text-[10px] font-semibold text-[#657165]">Nearby address or landmark <span className="font-normal text-[#929B91]">(optional)</span><input maxLength={240} value={address} onChange={e => setAddress(e.target.value)} placeholder="Street, building or landmark" className={fieldClass}/></label>
           <div className="flex flex-wrap items-center gap-2">
             <button type="button" onClick={locateMe} className="inline-flex items-center gap-2 rounded-xl border border-[#DDE4DA] bg-white px-3 py-2.5 text-[10px] font-semibold text-[#596B5B]"><MapPin size={14}/> {coordinates ? "Location added" : "Use my location"}</button>
-            <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-[#DDE4DA] bg-white px-3 py-2.5 text-[10px] font-semibold text-[#596B5B]"><Camera size={14}/>{photo ? "Change photo" : "Add photo"}<input type="file" accept="image/jpeg,image/png,image/webp,image/heic" className="sr-only" onChange={e => setPhoto(e.target.files?.[0] ?? null)}/></label>
+            <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-[#DDE4DA] bg-white px-3 py-2.5 text-[10px] font-semibold text-[#596B5B]"><Camera size={14}/>{photo ? "Change photo" : "Add photo"}<input type="file" accept="image/jpeg,image/png,image/webp,image/heic" capture="environment" className="sr-only" onChange={e => setPhoto(e.target.files?.[0] ?? null)}/></label>
             {photo && <span className="max-w-[180px] truncate text-[10px] text-[#718071]">{photo.name}</span>}
           </div>
           {photo && photo.size > 10 * 1024 * 1024 && <p className="text-[10px] text-red-700">Photo must be smaller than 10 MB.</p>}
