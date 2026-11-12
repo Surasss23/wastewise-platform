@@ -128,7 +128,7 @@ export function AppShell() {
       <section id="report" className="border-y border-[#E6EAE4] bg-white">
         <div className="mx-auto grid max-w-[1240px] gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:py-24">
           <div><SectionLabel>Take part</SectionLabel><h2 className="mt-4 text-[32px] font-semibold leading-tight tracking-[-0.055em] sm:text-[42px]">A cleaner street<br/>starts with a clear report.</h2><p className="mt-4 max-w-[400px] text-[12px] leading-7 text-[#778278]">Verified Panjagutta residents can submit a concern with an optional photo and approximate location. Every submission starts with a clear status and a traceable reference.</p><div className="mt-7 space-y-3 text-[11px] text-[#718071]"><p className="flex items-center gap-2"><Check size={14} className="text-[#718D70]"/> Report categories planned</p><p className="flex items-center gap-2"><Check size={14} className="text-[#718D70]"/> Photo and location support planned</p><p className="flex items-center gap-2"><Check size={14} className="text-[#718D70]"/> Status history planned</p></div></div>
-          <ReportForm/>   </form>
+          <ReportForm/>
         </div>
       </section>
 
