@@ -1,25 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { CircleMarker, MapContainer, TileLayer, useMapEvents } from "react-leaflet";
-import L from "leaflet";
+import { useEffect, useState } from "react";
+import { CircleMarker, MapContainer, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import { LocateFixed, MapPin } from "lucide-react";
 
 const center: [number, number] = [17.426, 78.451];
 
-function ClickToSelect({ onSelect }: { onSelect: (point: [number, number]) => void }) {
+function MapController({ centerPoint, onSelect }: { centerPoint: [number, number]; onSelect: (point: [number, number]) => void }) {
+  const map = useMap();
+  useEffect(() => { map.setView(centerPoint, Math.max(map.getZoom(), 14)); }, [centerPoint, map]);
   useMapEvents({ click(event) { onSelect([event.latlng.lat, event.latlng.lng]); } });
   return null;
-}
-
-function Recenter({ point }: { point: [number, number] }) {
-  const map = requireMap();
-  map.setView(point, Math.max(map.getZoom(), 15));
-  return null;
-}
-
-function requireMap() {
-  return L.DomUtil.get("wastewise-map") ? (window as Window & { __wastewiseMap?: L.Map }).__wastewiseMap : undefined;
 }
 
 export default function LocalityMapInner() {
@@ -41,7 +32,7 @@ export default function LocalityMapInner() {
     </div>
     <MapContainer id="wastewise-map" center={centerPoint} zoom={14} scrollWheelZoom className="h-[360px] w-full">
       <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-      <ClickToSelect onSelect={setPoint}/>
+      <MapController centerPoint={centerPoint} onSelect={setPoint}/>
       <CircleMarker center={center} radius={8} pathOptions={{ color: "#526B55", fillColor: "#819981", fillOpacity: 0.85 }}><></></CircleMarker>
       {point && <CircleMarker center={point} radius={9} pathOptions={{ color: "#9B633C", fillColor: "#D5A17A", fillOpacity: 0.95 }}/>}
     </MapContainer>
