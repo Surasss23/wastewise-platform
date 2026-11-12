@@ -22,7 +22,7 @@ export function AuthPage() {
   useEffect(() => {
     if (!supabase) return;
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) router.replace("/");
+      if (data.session) router.replace("/app");
     });
   }, [supabase, router]);
 
