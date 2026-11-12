@@ -39,7 +39,7 @@ export function AuthPage() {
       if (mode === "signin") {
         const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
         if (authError) throw authError;
-        router.replace(searchParams.get("next") || "/");
+        router.replace("/");
         router.refresh();
       } else if (mode === "signup") {
         const { data, error: authError } = await supabase.auth.signUp({
