@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "WasteWise — Better waste habits, cleaner neighbourhoods",
-  description: "A community-first waste management platform for cleaner neighbourhoods in Hyderabad.",
+  title: "WasteWise — A cleaner neighbourhood starts together",
+  description: "WasteWise is a neighbourhood-first waste reporting, sorting and community awareness platform, beginning with a proposed pilot around Panjagutta, Hyderabad.",
   applicationName: "WasteWise",
   metadataBase: new URL("https://wastewise-platform.vercel.app")
 };
