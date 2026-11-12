@@ -9,6 +9,7 @@ import {
 import { AuthPanel } from "@/components/auth-panel";
 import { WasteAnalyzer } from "@/components/waste-analyzer";
 import { LocalityJoinPanel } from "@/components/locality-join-panel";
+import { ReportForm } from "@/components/report-form";
 
 const areas = ["Panjagutta", "Somajiguda", "Ameerpet", "Khairatabad"];
 
@@ -37,16 +38,6 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 export function AppShell() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeArea, setActiveArea] = useState("Panjagutta");
-  const [issueType, setIssueType] = useState("Overflowing bin");
-  const [issueNote, setIssueNote] = useState("");
-  const [previewMessage, setPreviewMessage] = useState("");
-
-  function submitPreview(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setPreviewMessage("This is a demonstration only. Sign-in, locality verification and the live reporting workflow are the next activation steps.");
-    setIssueNote("");
-  }
 
   const links = [
     ["How it works", "#how-it-works"],
@@ -136,14 +127,8 @@ export function AppShell() {
 
       <section id="report" className="border-y border-[#E6EAE4] bg-white">
         <div className="mx-auto grid max-w-[1240px] gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:py-24">
-          <div><SectionLabel>Take part</SectionLabel><h2 className="mt-4 text-[32px] font-semibold leading-tight tracking-[-0.055em] sm:text-[42px]">A cleaner street<br/>starts with a clear report.</h2><p className="mt-4 max-w-[400px] text-[12px] leading-7 text-[#778278]">Try the report form preview. Live submissions will be switched on after locality membership, storage and the review workflow are tested end to end.</p><div className="mt-7 space-y-3 text-[11px] text-[#718071]"><p className="flex items-center gap-2"><Check size={14} className="text-[#718D70]"/> Report categories planned</p><p className="flex items-center gap-2"><Check size={14} className="text-[#718D70]"/> Photo and location support planned</p><p className="flex items-center gap-2"><Check size={14} className="text-[#718D70]"/> Status history planned</p></div></div>
-          <form onSubmit={submitPreview} className="rounded-[22px] border border-[#E3E9E1] bg-[#FBFCFA] p-5 sm:p-7">
-            <div className="flex items-center justify-between"><div><p className="text-[10px] font-semibold uppercase tracking-[0.17em] text-[#819081]">Report preview</p><h3 className="mt-1 text-[17px] font-semibold">What needs attention?</h3></div><span className="rounded-full bg-[#EEF2EC] px-3 py-1.5 text-[9px] font-medium text-[#6C806D]">Demo only</span></div>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2"><label className="text-[10px] font-semibold text-[#657165]">Area<select value={activeArea} onChange={e=>setActiveArea(e.target.value)} className="mt-2 w-full rounded-xl border border-[#E1E7DE] bg-white px-3 py-3 text-[12px] font-normal text-[#344237] outline-none focus:border-[#829681]">{areas.map(area=><option key={area}>{area}</option>)}</select></label><label className="text-[10px] font-semibold text-[#657165]">Issue type<select value={issueType} onChange={e=>setIssueType(e.target.value)} className="mt-2 w-full rounded-xl border border-[#E1E7DE] bg-white px-3 py-3 text-[12px] font-normal text-[#344237] outline-none focus:border-[#829681]"><option>Overflowing bin</option><option>Missed collection</option><option>Garbage hotspot</option><option>Illegal dumping</option><option>Segregation concern</option></select></label></div>
-            <label className="mt-4 block text-[10px] font-semibold text-[#657165]">What happened?<textarea required minLength={10} value={issueNote} onChange={e=>setIssueNote(e.target.value)} rows={4} placeholder="Describe the issue and nearby landmark…" className="mt-2 w-full resize-y rounded-xl border border-[#E1E7DE] bg-white px-3 py-3 text-[12px] font-normal text-[#344237] outline-none placeholder:text-[#A2AAA1] focus:border-[#829681]"/></label>
-            {previewMessage&&<p role="status" className="mt-4 rounded-xl border border-[#DDE7DB] bg-[#F0F5EF] p-3 text-[10px] leading-5 text-[#5E755F]">{previewMessage}</p>}
-            <div className="mt-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-center"><p className="max-w-[230px] text-[9px] leading-4 text-[#929B91]">Nothing is submitted or stored by this preview.</p><button type="submit" className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#26392C] px-5 py-3 text-[11px] font-semibold text-white transition hover:bg-[#3B5741]">Preview report <ArrowRight size={14}/></button></div>
-          </form>
+          <div><SectionLabel>Take part</SectionLabel><h2 className="mt-4 text-[32px] font-semibold leading-tight tracking-[-0.055em] sm:text-[42px]">A cleaner street<br/>starts with a clear report.</h2><p className="mt-4 max-w-[400px] text-[12px] leading-7 text-[#778278]">Verified Panjagutta residents can submit a concern with an optional photo and approximate location. Every submission starts with a clear status and a traceable reference.</p><div className="mt-7 space-y-3 text-[11px] text-[#718071]"><p className="flex items-center gap-2"><Check size={14} className="text-[#718D70]"/> Report categories planned</p><p className="flex items-center gap-2"><Check size={14} className="text-[#718D70]"/> Photo and location support planned</p><p className="flex items-center gap-2"><Check size={14} className="text-[#718D70]"/> Status history planned</p></div></div>
+          <ReportForm/>   </form>
         </div>
       </section>
 
