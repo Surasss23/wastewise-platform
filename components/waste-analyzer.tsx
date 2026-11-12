@@ -21,13 +21,13 @@ export function WasteAnalyzer() {
         <div>
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-moss"><Sparkles size={14}/> Waste guide</div>
           <h2 className="mt-2 text-xl font-semibold tracking-tight">Not sure where it belongs?</h2>
-          <p className="mt-1 text-sm text-muted">Search an item to get simple sorting and disposal guidance.</p>
+          <p className="mt-1 text-sm text-muted">Search an item to see whether it belongs in wet, dry, sanitary or special-care waste.</p>
         </div>
         <span className="hidden rounded-full bg-canvas px-3 py-1 text-[11px] text-muted sm:inline-flex">Curated starter guide</span>
       </div>
       <div className="mt-5 flex items-center gap-3 rounded-xl border border-line bg-[#FBFCFA] px-4 py-3 focus-within:border-moss">
         <Search size={18} className="shrink-0 text-muted"/>
-        <input aria-label="Search waste item" value={query} onChange={e => setQuery(e.target.value)} placeholder="Try: plastic bottle, battery, banana peel..." className="w-full bg-transparent text-sm outline-none placeholder:text-[#A0A8A1]"/>
+        <input aria-label="Search waste item" value={query} onChange={e => setQuery(e.target.value)} placeholder="Try: apple core, plastic bottle, banana peel..." className="w-full bg-transparent text-sm outline-none placeholder:text-[#A0A8A1]"/>
         {query && <button onClick={() => setQuery("")} className="text-xs text-muted hover:text-ink">Clear</button>}
       </div>
       {query ? (
@@ -49,7 +49,7 @@ export function WasteAnalyzer() {
         </div>
       ) : (
         <div className="mt-4 flex flex-wrap gap-2">
-          {["Plastic bottle", "Banana peel", "Used battery", "Sanitary pad"].map(item => <button key={item} onClick={() => setQuery(item)} className="rounded-full border border-line px-3 py-2 text-xs text-muted transition hover:border-moss hover:text-ink">{item}</button>)}
+          {["Apple core", "Plastic bottle", "Plastic wrapper", "Banana peel", "Used battery", "Sanitary pad"].map(item => <button key={item} onClick={() => setQuery(item)} className="rounded-full border border-line px-3 py-2 text-xs text-muted transition hover:border-moss hover:text-ink">{item}</button>)}
         </div>
       )}
       <a href="#recycling" className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-moss hover:underline">Explore recycling options <ArrowUpRight size={15}/></a>
