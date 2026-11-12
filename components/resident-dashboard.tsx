@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, LayoutDashboard, Leaf, LogOut, Map, MessageSquare, ShieldCheck } from "lucide-react";
+import { ArrowLeft, LayoutDashboard, Leaf, LogOut, Map, ShieldCheck } from "lucide-react";
 import type { Session } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
 import { LocalityMap } from "@/components/locality-map";
