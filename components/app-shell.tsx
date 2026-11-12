@@ -59,7 +59,7 @@ export function AppShell() {
           </nav>
           <div className="hidden items-center gap-3 sm:flex">
             <span className="hidden rounded-full border border-[#DDE4DB] px-3 py-2 text-[10px] font-medium text-[#68736A] xl:inline-flex"><span className="mr-2 mt-1 h-1.5 w-1.5 rounded-full bg-[#8DA18C]"/> Hyderabad pilot concept</span>
-            <AuthPanel/>
+            <a href="/app" className="rounded-lg border border-[#DDE4DA] px-3 py-2 text-[11px] font-semibold text-[#526B55] transition hover:bg-white">Open workspace</a><AuthPanel/>
           </div>
           <button aria-label="Toggle navigation" onClick={() => setMenuOpen(!menuOpen)} className="rounded-xl border border-[#E2E7E0] p-2.5 text-[#344337] lg:hidden">{menuOpen ? <X size={18}/> : <Menu size={18}/>}</button>
         </div>
