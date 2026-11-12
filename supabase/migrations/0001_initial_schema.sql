@@ -297,7 +297,7 @@ alter table public.waste_guide_items enable row level security;
 alter table public.notifications enable row level security;
 alter table public.moderation_reports enable row level security;
 
-create policy "Profiles visible to signed-in members" on public.profiles for select to authenticated using (true);
+create policy "Users view own profile" on public.profiles for select to authenticated using (id = auth.uid());
 create policy "Users update own profile" on public.profiles for update to authenticated using (id = auth.uid()) with check (id = auth.uid());
 create policy "Active localities are visible" on public.localities for select to anon, authenticated using (is_active = true);
 create policy "Managers manage localities" on public.localities for all to authenticated using (public.current_app_role() = 'admin') with check (public.current_app_role() = 'admin');
@@ -306,26 +306,26 @@ create policy "Users view own memberships" on public.locality_memberships for se
 create policy "Managers manage locality memberships" on public.locality_memberships for all to authenticated using (public.is_locality_manager(locality_id)) with check (public.is_locality_manager(locality_id));
 
 create policy "Signed-in users view locality reports" on public.waste_reports for select to authenticated using (exists (select 1 from public.locality_memberships m where m.locality_id = waste_reports.locality_id and m.user_id = auth.uid() and m.verified_at is not null) or public.current_app_role() = 'admin');
-create policy "Residents create reports" on public.waste_reports for insert to authenticated with check (reporter_id = auth.uid() and status = 'submitted' and assigned_collector_id is null);
+create policy "Residents create reports" on public.waste_reports for insert to authenticated with check (reporter_id = auth.uid() and status = 'submitted' and assigned_collector_id is null and (exists (select 1 from public.locality_memberships m where m.locality_id = waste_reports.locality_id and m.user_id = auth.uid() and m.verified_at is not null) or public.current_app_role() = 'admin'));
 create policy "Authors and assigned staff update reports" on public.waste_reports for update to authenticated using (reporter_id = auth.uid() or assigned_collector_id = auth.uid() or public.is_locality_manager(locality_id)) with check (reporter_id = auth.uid() or assigned_collector_id = auth.uid() or public.is_locality_manager(locality_id));
 
-create policy "Report media visible with report access" on public.report_media for select to authenticated using (exists (select 1 from public.waste_reports r where r.id = report_id));
+create policy "Report media visible with report access" on public.report_media for select to authenticated using (exists (select 1 from public.waste_reports r where r.id = report_media.report_id and (r.reporter_id = auth.uid() or r.assigned_collector_id = auth.uid() or public.is_locality_manager(r.locality_id) or exists (select 1 from public.locality_memberships m where m.locality_id = r.locality_id and m.user_id = auth.uid() and m.verified_at is not null))));
 create policy "Users upload report media" on public.report_media for insert to authenticated with check (uploaded_by = auth.uid() and exists (select 1 from public.waste_reports r where r.id = report_id and (r.reporter_id = auth.uid() or public.is_locality_manager(r.locality_id))));
-create policy "Report event history visible to report members" on public.report_events for select to authenticated using (exists (select 1 from public.waste_reports r where r.id = report_id));
+create policy "Report event history visible to report members" on public.report_events for select to authenticated using (exists (select 1 from public.waste_reports r where r.id = report_events.report_id and (r.reporter_id = auth.uid() or r.assigned_collector_id = auth.uid() or public.is_locality_manager(r.locality_id) or exists (select 1 from public.locality_memberships m where m.locality_id = r.locality_id and m.user_id = auth.uid() and m.verified_at is not null))));
 create policy "Assigned staff and managers add report events" on public.report_events for insert to authenticated with check (actor_id = auth.uid() and exists (select 1 from public.waste_reports r where r.id = report_id and (r.assigned_collector_id = auth.uid() or public.is_locality_manager(r.locality_id))));
 
 create policy "Published schedules visible" on public.collection_schedules for select to anon, authenticated using (is_published = true);
 create policy "Managers manage schedules" on public.collection_schedules for all to authenticated using (public.is_locality_manager(locality_id)) with check (public.is_locality_manager(locality_id));
 
 create policy "Residents view own pickup requests" on public.pickup_requests for select to authenticated using (resident_id = auth.uid() or assigned_collector_id = auth.uid() or public.is_locality_manager(locality_id));
-create policy "Residents create pickup requests" on public.pickup_requests for insert to authenticated with check (resident_id = auth.uid());
+create policy "Residents create pickup requests" on public.pickup_requests for insert to authenticated with check (resident_id = auth.uid() and exists (select 1 from public.locality_memberships m where m.locality_id = pickup_requests.locality_id and m.user_id = auth.uid() and m.verified_at is not null));
 create policy "Assigned staff manage pickup requests" on public.pickup_requests for update to authenticated using (assigned_collector_id = auth.uid() or public.is_locality_manager(locality_id)) with check (assigned_collector_id = auth.uid() or public.is_locality_manager(locality_id));
 
-create policy "Published locality posts visible" on public.community_posts for select to authenticated using (is_published = true);
-create policy "Signed-in users create posts" on public.community_posts for insert to authenticated with check (author_id = auth.uid());
+create policy "Published locality posts visible" on public.community_posts for select to authenticated using (is_published = true and exists (select 1 from public.locality_memberships m where m.locality_id = community_posts.locality_id and m.user_id = auth.uid() and m.verified_at is not null));
+create policy "Signed-in users create posts" on public.community_posts for insert to authenticated with check (author_id = auth.uid() and exists (select 1 from public.locality_memberships m where m.locality_id = community_posts.locality_id and m.user_id = auth.uid() and m.verified_at is not null));
 create policy "Authors and admins update posts" on public.community_posts for update to authenticated using (author_id = auth.uid() or public.current_app_role() = 'admin') with check (author_id = auth.uid() or public.current_app_role() = 'admin');
 create policy "Comments visible on published posts" on public.post_comments for select to authenticated using (exists (select 1 from public.community_posts p where p.id = post_id and p.is_published = true));
-create policy "Users create own comments" on public.post_comments for insert to authenticated with check (author_id = auth.uid());
+create policy "Users create own comments" on public.post_comments for insert to authenticated with check (author_id = auth.uid() and exists (select 1 from public.community_posts p join public.locality_memberships m on m.locality_id = p.locality_id where p.id = post_comments.post_id and p.is_published = true and m.user_id = auth.uid() and m.verified_at is not null));
 create policy "Authors update own comments" on public.post_comments for update to authenticated using (author_id = auth.uid()) with check (author_id = auth.uid());
 create policy "Reactions visible to signed-in users" on public.post_reactions for select to authenticated using (true);
 create policy "Users manage own reactions" on public.post_reactions for all to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
