@@ -1,41 +1,15 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import { CircleMarker, MapContainer, TileLayer, useMap, useMapEvents } from "react-leaflet";
-import { LocateFixed, MapPin } from "lucide-react";
-
-const center: [number, number] = [17.426, 78.451];
-
-function MapController({ centerPoint, onSelect }: { centerPoint: [number, number]; onSelect: (point: [number, number]) => void }) {
-  const map = useMap();
-  useEffect(() => { map.setView(centerPoint, Math.max(map.getZoom(), 14)); }, [centerPoint, map]);
-  useMapEvents({ click(event) { onSelect([event.latlng.lat, event.latlng.lng]); } });
-  return null;
-}
-
-export default function LocalityMapInner() {
-  const [point, setPoint] = useState<[number, number] | null>(null);
-  const [centerPoint, setCenterPoint] = useState<[number, number]>(center);
-  const [notice, setNotice] = useState("Map is centred on the proposed Panjagutta pilot area. Select a point or use your location.");
-  function locate() {
-    if (!navigator.geolocation) { setNotice("This browser does not support location."); return; }
-    setNotice("Requesting your location…");
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-      const next: [number, number] = [coords.latitude, coords.longitude];
-      setCenterPoint(next); setPoint(next); setNotice("Your current location is selected for this session.");
-    }, () => setNotice("Location permission was unavailable. You can still select a point on the map."), { enableHighAccuracy: true, timeout: 10000 });
-  }
-  return <div className="overflow-hidden rounded-2xl border border-[#E1E7DE] bg-white">
-    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E8ECE6] p-4">
-      <div><p className="text-xs font-semibold text-[#344237]">Panjagutta neighbourhood map</p><p className="mt-1 text-[10px] text-[#879187]">Tap the map to place a temporary pin.</p></div>
-      <button type="button" onClick={locate} className="inline-flex items-center gap-2 rounded-lg border border-[#DDE4DA] px-3 py-2 text-[10px] font-semibold text-[#526B55]"><LocateFixed size={14}/> Use my location</button>
-    </div>
-    <MapContainer id="wastewise-map" center={centerPoint} zoom={14} scrollWheelZoom className="h-[360px] w-full">
-      <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-      <MapController centerPoint={centerPoint} onSelect={setPoint}/>
-      <CircleMarker center={center} radius={8} pathOptions={{ color: "#526B55", fillColor: "#819981", fillOpacity: 0.85 }}><></></CircleMarker>
-      {point && <CircleMarker center={point} radius={9} pathOptions={{ color: "#9B633C", fillColor: "#D5A17A", fillOpacity: 0.95 }}/>}
-    </MapContainer>
-    <div className="flex items-start gap-2 p-3 text-[10px] leading-5 text-[#778378]"><MapPin size={14} className="mt-0.5 shrink-0 text-[#718D70]"/><span>{notice}{point ? ` Selected: ${point[0].toFixed(5)}, ${point[1].toFixed(5)}` : ""}</span></div>
-  </div>;
+import { useEffect,useState } from "react";
+import { CircleMarker,MapContainer,Popup,TileLayer,useMap,useMapEvents } from "react-leaflet";
+import { LocateFixed,MapPin,RefreshCw } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+const fallback:[number,number]=[17.426,78.451];
+type Report={id:string;category:string;title:string;description:string;address_label:string|null;latitude:number;longitude:number;status:string;created_at:string};
+function MapController({centerPoint,onSelect}:{centerPoint:[number,number];onSelect:(p:[number,number])=>void}){const map=useMap();useEffect(()=>{map.setView(centerPoint,Math.max(map.getZoom(),14))},[centerPoint,map]);useMapEvents({click(e){onSelect([e.latlng.lat,e.latlng.lng])}});return null}
+export default function LocalityMapInner(){
+ const supabase=createClient();const [reports,setReports]=useState<Report[]>([]);const [point,setPoint]=useState<[number,number]|null>(null);const [centerPoint,setCenterPoint]=useState<[number,number]>(fallback);const [notice,setNotice]=useState("Showing community reports with a shared location.");const [loading,setLoading]=useState(true);
+ async function load(){if(!supabase){setLoading(false);return}setLoading(true);const {data,error}=await supabase.from("public_waste_reports").select("id,category,title,description,address_label,latitude,longitude,status,created_at").order("created_at",{ascending:false}).limit(300);if(!error)setReports((data??[]) as Report[]);else setNotice("Map reports could not be loaded. Check the public map migration.");setLoading(false)}
+ useEffect(()=>{void load()},[supabase]);
+ function locate(){if(!navigator.geolocation){setNotice("This browser does not support location.");return}setNotice("Getting your location…");navigator.geolocation.getCurrentPosition(({coords})=>{const next:[number,number]=[coords.latitude,coords.longitude];setCenterPoint(next);setPoint(next);setNotice("Your location is selected. It is not shared unless you submit a post.")},()=>setNotice("Location permission was not allowed. You can still select a point on the map."),{enableHighAccuracy:true,timeout:12000})}
+ return <div className="overflow-hidden rounded-2xl border border-[#E1E7DE] bg-white"><div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E8ECE6] p-4"><div><p className="text-xs font-semibold text-[#344237]">Community waste map</p><p className="mt-1 text-[10px] text-[#879187]">{loading?"Loading local reports…":`${reports.length} mapped posts · public view`}</p></div><div className="flex gap-2"><button type="button" onClick={()=>void load()} aria-label="Refresh map" className="rounded-lg border border-[#DDE4DA] p-2 text-[#526B55]"><RefreshCw size={14}/></button><button type="button" onClick={locate} className="inline-flex items-center gap-2 rounded-lg border border-[#DDE4DA] px-3 py-2 text-[10px] font-semibold text-[#526B55]"><LocateFixed size={14}/> My location</button></div></div><MapContainer id="wastewise-map" center={centerPoint} zoom={14} scrollWheelZoom className="h-[390px] w-full"><TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/><MapController centerPoint={centerPoint} onSelect={setPoint}/>{reports.map(r=><CircleMarker key={r.id} center={[r.latitude,r.longitude]} radius={8} pathOptions={{color:r.status==="resolved"?"#527A56":"#9B633C",fillColor:r.status==="resolved"?"#8DB38E":"#D5A17A",fillOpacity:.9}}><Popup><div className="max-w-[220px]"><p className="font-semibold">{r.title}</p><p className="mt-1 text-xs capitalize">{r.category.replaceAll("_"," ")}</p><p className="mt-1 text-xs">{r.address_label||"Panjagutta, Hyderabad"}</p><p className="mt-1 text-xs font-medium">{r.status==="resolved"?"Marked cleaned":"Needs attention"}</p><p className="mt-1 text-[10px]">{new Date(r.created_at).toLocaleString()}</p></div></Popup></CircleMarker>)}{point&&<CircleMarker center={point} radius={9} pathOptions={{color:"#345A3B",fillColor:"#9DB99B",fillOpacity:.9}}/>}</MapContainer><div className="flex items-start gap-2 p-3 text-[10px] leading-5 text-[#778378]"><MapPin size={14} className="mt-0.5 shrink-0 text-[#718D70]"/><span>{notice}{point?` Selected: ${point[0].toFixed(5)}, ${point[1].toFixed(5)}`:""}</span></div><div className="flex flex-wrap gap-4 border-t border-[#E8ECE6] px-4 py-3 text-[10px] text-[#758275]"><span className="flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-[#D5A17A]"/> Needs attention</span><span className="flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-[#8DB38E]"/> Marked cleaned</span></div></div>
 }
