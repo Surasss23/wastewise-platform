@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, Leaf, Loader2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
@@ -12,7 +12,6 @@ type Mode = "signin" | "signup" | "reset";
 export function AuthPage() {
   const supabase = createClient();
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [mode, setMode] = useState<Mode>("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +22,7 @@ export function AuthPage() {
   useEffect(() => {
     if (!supabase) return;
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) router.replace(searchParams.get("next") || "/");
+      if (data.session) router.replace("/");
     });
   }, [supabase, router, searchParams]);
 
