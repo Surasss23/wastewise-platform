@@ -21,6 +21,16 @@ join public.localities l on l.id = r.locality_id
 where r.latitude is not null and r.longitude is not null;
 
 grant select on public.public_waste_reports to anon, authenticated;
+create or replace view public.public_report_media
+with (security_barrier = true)
+as
+select m.report_id, m.storage_path, m.stage, m.created_at
+from public.report_media m
+join public.waste_reports r on r.id = m.report_id
+where r.latitude is not null and r.longitude is not null
+  and exists (select 1 from public.localities l where l.id = r.locality_id and l.is_active = true);
+grant select on public.public_report_media to anon, authenticated;
+
 
 drop policy if exists "Public can view published community posts" on public.community_posts;
 create policy "Public can view published community posts"
