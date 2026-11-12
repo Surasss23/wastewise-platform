@@ -20,7 +20,6 @@ export function LocalityJoinPanel() {
       setMessage("Supabase is not configured yet.");
       return;
     }
-    setUser(activeUser);
     if (!activeUser) {
       setState("signed_out");
       return;
@@ -58,16 +57,22 @@ export function LocalityJoinPanel() {
     if (!supabase) return;
     let alive = true;
     supabase.auth.getUser().then(({ data }) => {
-      if (alive) void loadMembership(data.user);
+      if (alive) setUser(data.user);
     });
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (alive) void loadMembership(session?.user ?? null);
+      // Keep this callback synchronous: Supabase auth callbacks share an internal
+      // lock, so database queries must run in a separate effect.
+      if (alive) setUser(session?.user ?? null);
     });
     return () => {
       alive = false;
       listener.subscription.unsubscribe();
     };
-  }, [supabase, loadMembership]);
+  }, [supabase]);
+
+  useEffect(() => {
+    void loadMembership(user);
+  }, [user, loadMembership]);
 
   async function requestAccess() {
     if (!supabase || !user) {
