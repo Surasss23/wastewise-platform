@@ -33,25 +33,39 @@ export function ReportForm() {
       return;
     }
     let alive = true;
-    supabase.auth.getUser().then(async ({ data }) => {
-      if (!alive) return;
-      if (!data.user) {
-        setMembership("signed_out");
-        return;
-      }
-      setUserId(data.user.id);
+    supabase.auth.getUser().then(({ data }) => {
+      if (alive) setUserId(data.user?.id ?? null);
+    });
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (alive) setUserId(session?.user.id ?? null);
+    });
+    return () => {
+      alive = false;
+      listener.subscription.unsubscribe();
+    };
+  }, [supabase]);
+
+  useEffect(() => {
+    if (!supabase) return;
+    let alive = true;
+    setLocalityId(null);
+    if (!userId) {
+      setMembership("signed_out");
+      return () => { alive = false; };
+    }
+    setMembership("loading");
+    void (async () => {
       const { data: locality } = await supabase.from("localities").select("id").eq("name", "Panjagutta").eq("city", "Hyderabad").eq("is_active", true).maybeSingle();
       if (!alive || !locality) {
-        setMembership("unavailable");
+        if (alive) setMembership("unavailable");
         return;
       }
       setLocalityId(locality.id);
-      const { data: member, error } = await supabase.from("locality_memberships").select("verified_at").eq("locality_id", locality.id).eq("user_id", data.user.id).maybeSingle();
-      if (!alive) return;
-      setMembership(!error && member?.verified_at ? "verified" : "unverified");
-    });
+      const { data: member, error } = await supabase.from("locality_memberships").select("verified_at").eq("locality_id", locality.id).eq("user_id", userId).maybeSingle();
+      if (alive) setMembership(!error && member?.verified_at ? "verified" : "unverified");
+    })();
     return () => { alive = false; };
-  }, [supabase]);
+  }, [supabase, userId]);
 
   function locateMe() {
     if (!navigator.geolocation) {
