@@ -7,6 +7,7 @@ import {
   ShieldCheck, X, MapPin
 } from "lucide-react";
 import { WasteAnalyzer } from "@/components/waste-analyzer";
+import { AuthPanel } from "@/components/auth-panel";
 
 const nav = [
   { label: "Overview", href: "#overview", icon: House },
@@ -54,7 +55,7 @@ export function AppShell() {
       <main className="lg:pl-[252px]">
         <header className="sticky top-0 z-20 flex h-[68px] items-center justify-between border-b border-line bg-white/90 px-4 backdrop-blur sm:px-7">
           <div className="flex items-center gap-3"><button aria-label="Open menu" onClick={() => setMobileOpen(true)} className="rounded-lg p-2 hover:bg-canvas lg:hidden"><Menu size={19}/></button><div><p className="text-xs text-muted">Thursday, 12 November 2026</p><p className="text-sm font-semibold">Neighbourhood overview</p></div></div>
-          <div className="flex items-center gap-2"><span className="hidden items-center gap-2 rounded-full border border-line px-3 py-2 text-xs text-muted sm:flex"><span className="h-1.5 w-1.5 rounded-full bg-[#9BA69D]"/> Preview environment</span><button aria-label="Notifications" className="relative rounded-lg border border-line p-2 text-muted"><Bell size={17}/><span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-moss"/></button><span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-[10px] font-semibold text-white">G</span></div>
+          <div className="flex items-center gap-2"><AuthPanel/><span className="hidden items-center gap-2 rounded-full border border-line px-3 py-2 text-xs text-muted sm:flex"><span className="h-1.5 w-1.5 rounded-full bg-[#9BA69D]"/> Preview environment</span><button aria-label="Notifications" className="relative rounded-lg border border-line p-2 text-muted"><Bell size={17}/><span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-moss"/></button><span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-[10px] font-semibold text-white">G</span></div>
         </header>
 
         <div className="mx-auto max-w-[1440px] px-4 py-7 sm:px-7 sm:py-9">
