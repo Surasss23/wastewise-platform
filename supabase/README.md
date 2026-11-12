@@ -52,8 +52,8 @@ The storage policies allow report-access users to view images, report owners/loc
 
 ## 6. Before enabling real users
 
-- Add verified locality records and membership workflows.
-- Add verified locality records and membership workflows.
+- Run `migrations/0003_hyderabad_pilot_localities.sql` to seed Panjagutta as the initial pilot and nearby areas as inactive expansion candidates.
+- Establish verified resident memberships and trusted locality managers through a controlled admin process.
 - Add trusted locality managers and collector accounts through a controlled admin process.
 - Seed only confirmed collection schedules and verified recycling partners.
 - Test every RLS policy with resident, collector, manager and admin accounts.
