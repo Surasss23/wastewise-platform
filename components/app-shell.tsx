@@ -14,7 +14,7 @@ import { ReportForm } from "@/components/report-form";
 const areas = ["Panjagutta", "Somajiguda", "Ameerpet", "Khairatabad"];
 
 const steps = [
-  { number: "01", icon: ClipboardList, title: "Spot something. Report it.", text: "Share a waste concern with a location and a short description. Add a photo when the reporting flow is enabled." },
+  { number: "01", icon: ClipboardList, title: "Spot something. Report it.", text: "Share a waste concern with a location and a short description. Add a photo and location so neighbours can find the spot." },
   { number: "02", icon: Workflow, title: "The right people follow up.", text: "Reports move through a clear status trail so residents can understand what has been received, reviewed and assigned." },
   { number: "03", icon: Sprout, title: "Build better everyday habits.", text: "Use practical sorting guidance, learn collection updates when verified, and keep useful local knowledge in one place." }
 ];
@@ -22,7 +22,7 @@ const steps = [
 const features = [
   { icon: ClipboardList, title: "Issue reporting", text: "A simple, structured way to flag overflowing bins, missed collection and dumping hotspots." },
   { icon: Waves, title: "Clear status updates", text: "A visible process from submitted to resolved, with an event history for accountability." },
-  { icon: CalendarDaysIcon, title: "Collection information", text: "A single place for verified schedules and pickup requests—never guessed timings." },
+  { icon: CalendarDaysIcon, title: "Collection information", text: "A single place for verified schedules and pickup requests,never guessed timings." },
   { icon: Recycle, title: "Waste sorting guide", text: "Understand what belongs where and how to prepare materials before disposal." },
   { icon: MapPin, title: "Neighbourhood view", text: "Bring reports and verified services into a map-based local picture." },
   { icon: Users, title: "Community knowledge", text: "Share useful updates, practical tips and local recycling information." }
@@ -41,6 +41,7 @@ export function AppShell() {
 
   const links = [
     ["How it works", "#how-it-works"],
+    ["Community map", "/map"],
     ["What you can do", "#features"],
     ["Waste guide", "#waste-guide"],
     ["Pilot area", "#pilot"]
@@ -87,8 +88,8 @@ export function AppShell() {
               <div className="mt-4 rounded-[18px] bg-[#F1F4EF] p-4 sm:p-5">
                 <div className="flex items-start justify-between gap-3"><div><p className="text-[10px] text-[#7D887D]">PILOT AREA</p><p className="mt-1 text-[20px] font-semibold tracking-[-0.04em]">Panjagutta, Hyderabad</p><p className="mt-1 text-[10px] text-[#849084]">Proposed neighbourhood coverage</p></div><span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-[#607760]"><MapPin size={17}/></span></div>
                 <div className="mt-5 grid grid-cols-2 gap-2">
-                  <div className="rounded-xl border border-[#E5EAE2] bg-white p-3"><p className="text-[9px] text-[#8A958A]">REPORTS</p><p className="mt-2 text-[22px] font-semibold">—</p><p className="mt-0.5 text-[9px] text-[#8A958A]">Awaiting live data</p></div>
-                  <div className="rounded-xl border border-[#E5EAE2] bg-white p-3"><p className="text-[9px] text-[#8A958A]">COLLECTION</p><p className="mt-2 text-[22px] font-semibold">—</p><p className="mt-0.5 text-[9px] text-[#8A958A]">Schedule not verified</p></div>
+                  <div className="rounded-xl border border-[#E5EAE2] bg-white p-3"><p className="text-[9px] text-[#8A958A]">REPORTS</p><p className="mt-2 text-[22px] font-semibold">,</p><p className="mt-0.5 text-[9px] text-[#8A958A]">Awaiting live data</p></div>
+                  <div className="rounded-xl border border-[#E5EAE2] bg-white p-3"><p className="text-[9px] text-[#8A958A]">COLLECTION</p><p className="mt-2 text-[22px] font-semibold">,</p><p className="mt-0.5 text-[9px] text-[#8A958A]">Schedule not verified</p></div>
                 </div>
                 <div className="mt-3 rounded-xl border border-[#E5EAE2] bg-white p-3.5"><div className="flex items-center justify-between"><p className="text-[10px] font-semibold">Pilot neighbourhoods</p><span className="text-[9px] text-[#929B91]">Planned coverage</span></div><div className="mt-3 flex flex-wrap gap-1.5">{areas.map(area=><span key={area} className="rounded-full bg-[#F0F4EF] px-2.5 py-1.5 text-[9px] font-medium text-[#607460]">{area}</span>)}</div></div>
               </div>
@@ -101,13 +102,13 @@ export function AppShell() {
 
       <section id="how-it-works" className="border-y border-[#E6EAE4] bg-white">
         <div className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8 lg:py-24">
-          <div className="max-w-[620px]"><SectionLabel>A simple process</SectionLabel><h2 className="mt-4 text-[32px] font-semibold leading-tight tracking-[-0.055em] sm:text-[42px]">From noticing a problem<br className="hidden sm:block"/> to making progress.</h2><p className="mt-4 text-[13px] leading-7 text-[#748075]">A useful waste system should make the next step obvious—for residents, local teams and community partners.</p></div>
+          <div className="max-w-[620px]"><SectionLabel>A simple process</SectionLabel><h2 className="mt-4 text-[32px] font-semibold leading-tight tracking-[-0.055em] sm:text-[42px]">From noticing a problem<br className="hidden sm:block"/> to making progress.</h2><p className="mt-4 text-[13px] leading-7 text-[#748075]">A useful waste system should make the next step obvious,for residents, local teams and community partners.</p></div>
           <div className="mt-12 grid gap-4 md:grid-cols-3">{steps.map((step,index)=>{const Icon=step.icon;return <article key={step.number} className="relative rounded-[20px] border border-[#E7EBE5] bg-[#FBFCFA] p-6 sm:p-7"><div className="flex items-center justify-between"><span className="text-[11px] font-semibold tracking-[0.15em] text-[#98A398]">{step.number} / 03</span><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#EAF0E8] text-[#617761]"><Icon size={19} strokeWidth={1.7}/></span></div><h3 className="mt-8 text-[17px] font-semibold tracking-tight">{step.title}</h3><p className="mt-3 text-[12px] leading-6 text-[#778278]">{step.text}</p>{index<2&&<div className="absolute -right-3 top-1/2 z-10 hidden h-6 w-6 items-center justify-center rounded-full border border-[#E7EBE5] bg-white text-[#829082] md:flex"><ChevronRight size={13}/></div>}</article>})}</div>
         </div>
       </section>
 
       <section id="features" className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8 lg:py-24">
-        <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><SectionLabel>One connected neighbourhood toolkit</SectionLabel><h2 className="mt-4 max-w-[600px] text-[32px] font-semibold leading-tight tracking-[-0.055em] sm:text-[42px]">The right tools for<br/>everyday waste challenges.</h2></div><p className="max-w-[330px] text-[12px] leading-6 text-[#788378]">Designed around clear information, responsible reporting and local participation—not another noisy social feed.</p></div>
+        <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><SectionLabel>One connected neighbourhood toolkit</SectionLabel><h2 className="mt-4 max-w-[600px] text-[32px] font-semibold leading-tight tracking-[-0.055em] sm:text-[42px]">The right tools for<br/>everyday waste challenges.</h2></div><p className="max-w-[330px] text-[12px] leading-6 text-[#788378]">Designed around clear information, responsible reporting and local participation,not another noisy social feed.</p></div>
         <div className="mt-11 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{features.map(({icon:Icon,title,text})=><article key={title} className="group rounded-[18px] border border-[#E4E9E2] bg-white p-6 transition hover:-translate-y-1 hover:border-[#C8D4C7] hover:shadow-[0_16px_36px_rgba(40,57,43,0.06)]"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#EEF3EC] text-[#637A64] transition group-hover:bg-[#E2EBDD]"><Icon size={18} strokeWidth={1.7}/></span><h3 className="mt-6 text-[14px] font-semibold">{title}</h3><p className="mt-2 text-[11px] leading-6 text-[#788378]">{text}</p></article>)}</div>
       </section>
 
@@ -127,7 +128,7 @@ export function AppShell() {
 
       <section id="report" className="border-y border-[#E6EAE4] bg-white">
         <div className="mx-auto grid max-w-[1240px] gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:py-24">
-          <div><SectionLabel>Take part</SectionLabel><h2 className="mt-4 text-[32px] font-semibold leading-tight tracking-[-0.055em] sm:text-[42px]">A cleaner street<br/>starts with a clear report.</h2><p className="mt-4 max-w-[400px] text-[12px] leading-7 text-[#778278]">Verified Panjagutta residents can submit a concern with an optional photo and approximate location. Every submission starts with a clear status and a traceable reference.</p><div className="mt-7 space-y-3 text-[11px] text-[#718071]"><p className="flex items-center gap-2"><Check size={14} className="text-[#718D70]"/> Report categories planned</p><p className="flex items-center gap-2"><Check size={14} className="text-[#718D70]"/> Photo and location support planned</p><p className="flex items-center gap-2"><Check size={14} className="text-[#718D70]"/> Status history planned</p></div></div>
+          <div><SectionLabel>Take part</SectionLabel><h2 className="mt-4 text-[32px] font-semibold leading-tight tracking-[-0.055em] sm:text-[42px]">A cleaner street<br/>starts with a clear report.</h2><p className="mt-4 max-w-[400px] text-[12px] leading-7 text-[#778278]">Verified Panjagutta residents can submit a concern with an optional photo and approximate location. Every submission starts with a clear status and a traceable reference.</p><div className="mt-7 space-y-3 text-[11px] text-[#718071]"><p className="flex items-center gap-2"><Check size={14} className="text-[#718D70]"/> Clear report categories</p><p className="flex items-center gap-2"><Check size={14} className="text-[#718D70]"/> Photo and location sharing</p><p className="flex items-center gap-2"><Check size={14} className="text-[#718D70]"/> Public status updates</p></div></div>
           <ReportForm/>
         </div>
       </section>
