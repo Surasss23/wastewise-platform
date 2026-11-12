@@ -2,11 +2,27 @@
 
 WasteWise uses Supabase for authentication, PostgreSQL, file storage and realtime updates.
 
-## 1. Create a project
+## 1. Project configuration
 
-Create a Supabase project in a region close to Hyderabad (for example, Mumbai if available). Keep the database password private.
+Project reference: `jyobjiehfovietcvqmnb`
 
-## 2. Apply the database migration
+Project URL:
+`https://jyobjiehfovietcvqmnb.supabase.co`
+
+The URL is derived from the project reference in your Supabase dashboard URL. Confirm it in **Project Settings → API → Project URL** before deploying.
+
+## 2. Add application environment variables
+
+Copy `.env.example` to `.env.local` for local development and set:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+
+The publishable key is designed for browser use with correctly configured Row Level Security. Older projects can use `NEXT_PUBLIC_SUPABASE_ANON_KEY` instead. Never use a `sb_secret_...` key or service-role key in browser code, environment variables prefixed with `NEXT_PUBLIC_`, or GitHub.
+
+For a hosted deployment, add the same two values to your hosting provider's environment-variable settings and redeploy. Do not commit `.env.local`.
+
+## 3. Apply the database migration
 
 Open **SQL Editor** in the Supabase dashboard and run:
 
@@ -14,18 +30,19 @@ Open **SQL Editor** in the Supabase dashboard and run:
 
 This creates the initial data model and row-level security policies for profiles, localities, memberships, reports, report media, report history, collection schedules, pickup requests, community posts, comments, reactions, saved posts, recycling partners, waste-guide entries, notifications and moderation reports.
 
-## 3. Add application environment variables
+The SQL file must be run in your Supabase project; connecting the frontend does not apply the schema automatically.
 
-Copy `.env.example` to `.env.local` for local development and set:
+## 4. Configure authentication
 
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+In Supabase **Authentication → URL Configuration**, set your deployed site's URL as the Site URL and add these redirect URLs:
 
-Use the project URL and publishable/anon key from Supabase Project Settings → API. Never put the service-role key in browser code or commit it to GitHub.
+- `http://localhost:3000/auth/callback` for local development
+- `https://YOUR-DEPLOYED-DOMAIN/auth/callback` for production
 
-## 4. Before enabling real users
+Enable email/password sign-in. If email confirmation is enabled, users must confirm their email before signing in.
 
-- Configure email authentication and redirect URLs.
+## 5. Before enabling real users
+
 - Create a private Storage bucket for report photos.
 - Add storage object policies scoped to report access.
 - Add verified locality records and membership workflows.
@@ -33,4 +50,4 @@ Use the project URL and publishable/anon key from Supabase Project Settings → 
 - Seed only confirmed collection schedules and verified recycling partners.
 - Test every RLS policy with resident, collector, manager and admin accounts.
 
-The migration intentionally does not create fake schedules, partner records or user accounts. Storage policies and the application connection are the next integration task.
+The migration intentionally does not create fake schedules, partner records or user accounts. Storage policies, report submission, and community write workflows remain separate integration tasks. Authentication alone does not grant locality membership or elevated roles.
