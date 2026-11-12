@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import type { FormEvent } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
@@ -94,6 +95,7 @@ export function AuthPanel() {
               <button disabled={busy} className="w-full rounded-lg bg-ink px-4 py-3 text-sm font-semibold text-white hover:bg-moss disabled:opacity-60">{busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}</button>
             </form>
             <p className="mt-5 text-center text-xs text-muted">{mode === "signin" ? "New to WasteWise?" : "Already have an account?"} <button onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setMessage(""); }} className="font-semibold text-moss hover:underline">{mode === "signin" ? "Create an account" : "Sign in"}</button></p>
+            <p className="mt-3 text-center text-[11px]"><Link href="/login" onClick={() => setOpen(false)} className="font-semibold text-moss hover:underline">Open full account page</Link></p>
             <p className="mt-4 text-[10px] leading-4 text-muted">Your account is created through Supabase authentication. Locality membership and permissions are assigned separately.</p>
           </section>
         </div>
