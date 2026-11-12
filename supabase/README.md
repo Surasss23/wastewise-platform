@@ -39,7 +39,7 @@ In Supabase **Authentication → URL Configuration**, set your deployed site's U
 - `http://localhost:3000/auth/callback` for local development
 - `https://YOUR-DEPLOYED-DOMAIN/auth/callback` for production
 
-Enable email/password sign-in. If email confirmation is enabled, users must confirm their email before signing in.
+Enable email/password sign-in. To allow users to create an account and sign in without waiting for a confirmation email, open **Authentication → Providers → Email** and turn off **Confirm email**. This is a Supabase project setting, not something the website can safely bypass. Keep password recovery enabled.
 
 ## 5. Configure private report-photo storage
 
@@ -50,13 +50,13 @@ Enable email/password sign-in. If email confirmation is enabled, users must conf
 
 The storage policies allow report-access users to view images, report owners/locality managers to upload, and report owners/locality managers to delete. There is intentionally no public read or update policy.
 
-## 6. Before enabling real users
+## 6. Public community map and photo posts\n\nAfter the locality seed migration, run `migrations/0005_public_community_map.sql` once. It creates a public, limited-field map view, allows visitors to read published community posts, and creates the `community-waste-photos` public bucket for images intentionally shared with the community. Signed-in users can submit geotagged reports and before/after clean-up photos. These photos are public by design, so do not upload faces, vehicle number plates, private property interiors or other personal information.\n\nThe new workspace uses this migration for public map pins, community activity and report counters. The older `report-media` bucket remains private for any private records.\n\n## 7. Before enabling real users
 
 - Run `migrations/0003_hyderabad_pilot_localities.sql` to seed Panjagutta as the initial pilot and nearby areas as inactive expansion candidates.
-- Run `migrations/0004_resident_membership_requests.sql` to allow signed-in residents to request unverified membership in active localities. A trusted manager/admin must verify requests.
+- `migrations/0004_resident_membership_requests.sql` is optional for the current public community posting flow. It only enables the separate locality membership request panel; a trusted manager/admin must verify those requests.
 - Establish verified resident memberships and trusted locality managers through a controlled admin process.
 - Add trusted locality managers and collector accounts through a controlled admin process.
 - Seed only confirmed collection schedules and verified recycling partners.
 - Test every RLS policy with resident, collector, manager and admin accounts.
 
-The migration intentionally does not create fake schedules, partner records or user accounts. Storage policies, report submission, and community write workflows remain separate integration tasks. Authentication alone does not grant locality membership or elevated roles.
+The migrations intentionally do not create fake schedules, partner records or user accounts. Confirm the public-photo disclosure and test sign-in, posting, image upload and map display before inviting real users.
