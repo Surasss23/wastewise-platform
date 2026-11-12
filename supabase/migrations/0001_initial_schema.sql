@@ -305,8 +305,8 @@ create policy "Managers manage localities" on public.localities for all to authe
 create policy "Users view own memberships" on public.locality_memberships for select to authenticated using (user_id = auth.uid() or public.is_locality_manager(locality_id));
 create policy "Managers manage locality memberships" on public.locality_memberships for all to authenticated using (public.is_locality_manager(locality_id)) with check (public.is_locality_manager(locality_id));
 
-create policy "Signed-in users view locality reports" on public.waste_reports for select to authenticated using (exists (select 1 from public.locality_memberships m where m.locality_id = locality_id and m.user_id = auth.uid() and m.verified_at is not null) or public.current_app_role() = 'admin');
-create policy "Residents create reports" on public.waste_reports for insert to authenticated with check (reporter_id = auth.uid());
+create policy "Signed-in users view locality reports" on public.waste_reports for select to authenticated using (exists (select 1 from public.locality_memberships m where m.locality_id = waste_reports.locality_id and m.user_id = auth.uid() and m.verified_at is not null) or public.current_app_role() = 'admin');
+create policy "Residents create reports" on public.waste_reports for insert to authenticated with check (reporter_id = auth.uid() and status = 'submitted' and assigned_collector_id is null);
 create policy "Authors and assigned staff update reports" on public.waste_reports for update to authenticated using (reporter_id = auth.uid() or assigned_collector_id = auth.uid() or public.is_locality_manager(locality_id)) with check (reporter_id = auth.uid() or assigned_collector_id = auth.uid() or public.is_locality_manager(locality_id));
 
 create policy "Report media visible with report access" on public.report_media for select to authenticated using (exists (select 1 from public.waste_reports r where r.id = report_id));
