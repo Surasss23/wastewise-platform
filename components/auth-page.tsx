@@ -24,7 +24,7 @@ export function AuthPage() {
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) router.replace("/");
     });
-  }, [supabase, router, searchParams]);
+  }, [supabase, router]);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
