@@ -15,7 +15,9 @@ WasteWise is a neighbourhood-first platform, beginning with a Hyderabad pilot. I
 
 ## Current milestone
 
-The repository currently contains the responsive Next.js application foundation and a functional curated waste-guide search. The issue form and community filters are front-end previews; they do not publish to a shared database yet.
+The repository includes a responsive product landing page, Supabase email/password authentication, a curated waste guide, a Panjagutta pilot locality, resident membership requests, database schema with row-level security, and private report-media storage policies.
+
+**Not production-ready yet:** report submission and photo upload, resident-facing report history, collector/manager review tools, community publishing, verified schedules, and recycling-partner management still need to be implemented and tested end to end. The current report section is explicitly a preview; it does not create a database report.
 
 ## Stack
 
@@ -49,8 +51,8 @@ Copy `.env.example` to `.env.local` after creating the Supabase project. Never c
 ## Delivery roadmap
 
 - **Foundation:** responsive app, navigation, design system and waste-guide seed data.
-- **Backend:** Supabase schema, authentication, storage, RLS and seed data.
-- **Resident workflows:** persistent reports, photos, approximate location, status tracking and community feed.
+- **Backend foundation:** Supabase schema, authentication, storage policies, RLS and Panjagutta pilot locality.
+- **Resident workflows (next):** persistent reports, private photo uploads, approximate location, status tracking and community feed.
 - **Operations:** collector dashboard, locality manager tools, verified schedules, pickup requests and notifications.
 - **Discovery:** OpenStreetMap/Leaflet, verified recycling directory and educational content.
 - **Intelligence:** optional in-browser image classification only after a safe, tested model is selected; always show uncertainty and allow manual correction.
