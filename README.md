@@ -1,5 +1,61 @@
 # WasteWise
 
-Community-driven smart waste management platform for Hyderabad, starting with one locality.
+**Community-driven smart waste management platform.**
 
-The application is being built in phases. The first milestone establishes the responsive web foundation and accessible product experience; integrations and live workflows will be enabled after the Supabase project is connected.
+WasteWise is a neighbourhood-first platform, beginning with a Hyderabad pilot. It brings together waste guidance, issue reporting, collection coordination, community updates, local mapping and verified recycling information.
+
+## Product principles
+
+- Community-first, accessible and mobile responsive.
+- Calm, minimal interface: off-white, charcoal and restrained muted-green accents.
+- No invented collection schedules, recycler listings or municipal affiliations.
+- Clear distinction between preview content and verified live information.
+- Privacy-aware reporting, moderation and role-based access.
+- Free/open-source-first infrastructure wherever practical.
+
+## Current milestone
+
+The repository currently contains the responsive Next.js application foundation and a functional curated waste-guide search. The issue form and community filters are front-end previews; they do not publish to a shared database yet.
+
+## Stack
+
+- Next.js App Router + React + TypeScript
+- Tailwind CSS
+- Lucide icons
+- Supabase (planned: PostgreSQL, Auth, Storage, Realtime and row-level security)
+- OpenStreetMap + Leaflet (planned map layer)
+
+## Run locally
+
+```bash
+npm install
+npm run dev
+```
+
+Open http://localhost:3000.
+
+## Environment
+
+Copy `.env.example` to `.env.local` after creating the Supabase project. Never commit secret service-role keys.
+
+## Planned modules
+
+1. Resident: reports, waste analyzer, collection calendar, community feed, map, recycling directory and impact.
+2. Collector: assigned reports, status updates and before/after verification.
+3. Locality manager: verified collection schedules, pickup slots, team assignments and announcements.
+4. Recycling partner: verified profile, accepted materials and service areas.
+5. Admin: moderation, user/role management, locality configuration, audit logs and platform settings.
+
+## Delivery roadmap
+
+- **Foundation:** responsive app, navigation, design system and waste-guide seed data.
+- **Backend:** Supabase schema, authentication, storage, RLS and seed data.
+- **Resident workflows:** persistent reports, photos, approximate location, status tracking and community feed.
+- **Operations:** collector dashboard, locality manager tools, verified schedules, pickup requests and notifications.
+- **Discovery:** OpenStreetMap/Leaflet, verified recycling directory and educational content.
+- **Intelligence:** optional in-browser image classification only after a safe, tested model is selected; always show uncertainty and allow manual correction.
+- **Hardening:** accessibility, multilingual English/Telugu/Hindi, abuse reporting, moderation, backups and production checks.
+
+## Important
+
+Collection schedules and recycling-partner details must be supplied and verified by an authorised local source before being shown as live. This project is not an official GHMC service and must not imply municipal endorsement without a formal agreement.
