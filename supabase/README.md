@@ -41,10 +41,18 @@ In Supabase **Authentication → URL Configuration**, set your deployed site's U
 
 Enable email/password sign-in. If email confirmation is enabled, users must confirm their email before signing in.
 
-## 5. Before enabling real users
+## 5. Configure private report-photo storage
 
-- Create a private Storage bucket for report photos.
-- Add storage object policies scoped to report access.
+1. In **Storage → New bucket**, create `report-media` and keep **Public bucket** off.
+2. Run `migrations/0002_report_media_storage.sql` in the SQL Editor.
+3. Upload objects using this path convention: `<report-uuid>/<filename>`. The report UUID must refer to an existing report, and the caller must own the report or manage its locality.
+4. The migration enforces a 10 MB limit and JPEG, PNG, WebP or HEIC MIME types. The bucket remains private; authorized images should be displayed using authenticated downloads or short-lived signed URLs.
+
+The storage policies allow report-access users to view images, report owners/locality managers to upload, and report owners/locality managers to delete. There is intentionally no public read or update policy.
+
+## 6. Before enabling real users
+
+- Add verified locality records and membership workflows.
 - Add verified locality records and membership workflows.
 - Add trusted locality managers and collector accounts through a controlled admin process.
 - Seed only confirmed collection schedules and verified recycling partners.
