@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { AlertCircle, ArrowUpRight, BatteryFull, CheckCircle2, Leaf, Package, Recycle, Search, ShieldAlert, Sparkles, Trash2 } from "lucide-react";
+import { AlertCircle, ArrowUpRight, BatteryFull, Leaf, Package, Recycle, Search, ShieldAlert, Sparkles, Trash2 } from "lucide-react";
 import { findWasteGuide } from "@/lib/waste-guide";
 
 const categoryStyles: Record<string, string> = {
