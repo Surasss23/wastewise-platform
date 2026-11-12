@@ -53,6 +53,7 @@ The storage policies allow report-access users to view images, report owners/loc
 ## 6. Before enabling real users
 
 - Run `migrations/0003_hyderabad_pilot_localities.sql` to seed Panjagutta as the initial pilot and nearby areas as inactive expansion candidates.
+- Run `migrations/0004_resident_membership_requests.sql` to allow signed-in residents to request unverified membership in active localities. A trusted manager/admin must verify requests.
 - Establish verified resident memberships and trusted locality managers through a controlled admin process.
 - Add trusted locality managers and collector accounts through a controlled admin process.
 - Seed only confirmed collection schedules and verified recycling partners.
