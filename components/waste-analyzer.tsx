@@ -86,7 +86,7 @@ export function WasteAnalyzer() {
               {item.category === "Special care" && <p className="mt-3 flex items-start gap-2 rounded-lg bg-[#F6F1F7] p-3 text-[11px] leading-5 text-[#705A83]"><ShieldAlert size={14} className="mt-0.5 shrink-0"/>Keep batteries and electronics out of regular wet and dry bins. Use an authorised collection or take-back point.</p>}
             </article>
           )) : <p className="rounded-xl bg-canvas p-4 text-sm text-muted">No exact match yet. Try a broader item name or check local collection instructions.</p>}
-          <p className="flex items-start gap-2 text-xs leading-5 text-muted"><AlertCircle size={14} className="mt-0.5 shrink-0"/>Bin colours and collection systems can vary by area. Follow your local waste collector's instructions where they differ.</p>
+          <p className="flex items-start gap-2 text-xs leading-5 text-muted"><AlertCircle size={14} className="mt-0.5 shrink-0"/>Bin colours and collection systems can vary by area. Follow your local waste collector&apos;s instructions where they differ.</p>
         </div>
       ) : (
         <div className="mt-4">
