@@ -138,7 +138,7 @@ export function AppShell() {
       <footer className="border-t border-[#E3E8E1] bg-[#F1F4EF]">
         <div className="mx-auto flex max-w-[1240px] flex-col gap-8 px-5 py-9 sm:px-8 md:flex-row md:items-end md:justify-between">
           <div><a href="#top" className="flex items-center gap-2.5"><span className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-[#26392C] text-white"><Leaf size={16}/></span><span className="text-[15px] font-semibold tracking-[-0.04em]">wastewise.</span></a><p className="mt-3 max-w-[330px] text-[10px] leading-5 text-[#859085]">A neighbourhood-first waste awareness and reporting platform. Starting with a proposed pilot around Panjagutta, Hyderabad.</p></div>
-          <div className="text-left md:text-right"><p className="text-[10px] text-[#8A958A]">An independent community project</p><p className="mt-1 text-[12px] font-semibold text-[#435345]">Made by Surya Narayana</p><p className="mt-3 text-[9px] text-[#9AA39A]">© {new Date().getFullYear()} WasteWise. Built with care.</p></div>
+          <div className="text-left md:text-right"><p className="text-[10px] text-[#8A958A]">An independent community project</p><p className="mt-1 text-[12px] font-semibold text-[#435345]">Made by Gaikwad Abhishek</p><p className="mt-3 text-[9px] text-[#9AA39A]">© {new Date().getFullYear()} WasteWise. Built with care.</p></div>
         </div>
       </footer>
     </main>
