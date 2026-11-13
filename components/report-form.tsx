@@ -1,6 +1,6 @@
 "use client";
 import { useEffect,useState } from "react";
-import { Camera,CheckCircle2,Loader2,MapPin,Send,ImagePlus } from "lucide-react";
+import { Camera,CheckCircle2,Loader2,MapPin,ImagePlus } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 const categories=[{value:"garbage_hotspot",label:"Garbage pile"},{value:"overflowing_bin",label:"Overflowing bin"},{value:"missed_collection",label:"Missed collection"},{value:"illegal_dumping",label:"Illegal dumping"},{value:"segregation",label:"Waste sorting issue"}] as const;
 export function ReportForm(){
